@@ -3,6 +3,8 @@ import { Link, useLocation } from 'react-router-dom'
 
 function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isProductOpen, setIsProductOpen] = useState(false)
+  const [isPagesOpen, setIsPagesOpen] = useState(false)
   const location = useLocation()
 
   const closeMobileMenu = () => {
@@ -10,85 +12,121 @@ function Navbar() {
   }
 
   return (
-    <nav className="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50 backdrop-blur-sm bg-white/95">
+    <nav className="bg-white sticky top-0 z-50 shadow-sm border-b border-blue-100/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16 md:h-20">
-          {/* Bank Name/Logo */}
-          <Link to="/" className="flex items-center">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center shadow-md animate-pulse-slow">
-                <span className="text-white font-bold text-lg">B</span>
+        <div className="flex justify-between items-center h-20">
+          {/* Logo */}
+          <Link to="/" className="flex items-center group">
+            <div className="flex items-center space-x-3">
+              {/* Circular Logo Design - Concentric circles with blue inner, green outer */}
+              <div className="relative w-12 h-12 flex items-center justify-center">
+                <svg className="w-12 h-12" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  {/* Outer circle - green */}
+                  <circle cx="24" cy="24" r="22" stroke="#10b981" strokeWidth="2" fill="none"/>
+                  {/* Middle circle - green */}
+                  <circle cx="24" cy="24" r="16" stroke="#10b981" strokeWidth="2" fill="none"/>
+                  {/* Inner circle - blue */}
+                  <circle cx="24" cy="24" r="10" fill="#3b82f6"/>
+                </svg>
               </div>
-              <div className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
-                Banking System
+              {/* BANKIO Text - BAN in dark blue, KIO in dark green */}
+              <div className="flex items-baseline">
+                <span className="text-2xl font-bold text-[#1e3a8a]">BAN</span>
+                <span className="text-2xl font-bold text-[#059669]">KIO</span>
               </div>
             </div>
           </Link>
 
-          {/* Desktop Navigation Links */}
-          <div className="hidden lg:flex items-center space-x-1">
-            <Link 
-              to="/" 
-              className={`px-4 py-2 font-medium rounded-lg transition-all duration-200 text-sm ${
-                location.pathname === '/' 
-                  ? 'text-blue-600 bg-blue-50' 
-                  : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
-              }`}
-            >
-              Home
-            </Link>
-            <Link 
-              to="/about" 
-              className={`px-4 py-2 font-medium rounded-lg transition-all duration-200 text-sm ${
-                location.pathname === '/about' 
-                  ? 'text-blue-600 bg-blue-50' 
-                  : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
-              }`}
-            >
-              About
-            </Link>
-            <Link 
-              to="/contact" 
-              className={`px-4 py-2 font-medium rounded-lg transition-all duration-200 text-sm ${
-                location.pathname === '/contact' 
-                  ? 'text-blue-600 bg-blue-50' 
-                  : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
-              }`}
-            >
-              Contact
-            </Link>
-            <div className="relative group">
-              <button className={`px-4 py-2 font-medium rounded-lg transition-all duration-200 text-sm flex items-center ${
-                location.pathname === '/terms' || location.pathname === '/privacy'
-                  ? 'text-blue-600 bg-blue-50' 
-                  : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
-              }`}>
-                Legal
-                <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                <div className="py-2">
-                  <Link 
-                    to="/terms" 
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors"
-                  >
-                    Terms & Conditions
-                  </Link>
-                  <Link 
-                    to="/privacy" 
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors"
-                  >
-                    Privacy Policy
-                  </Link>
-                </div>
+          {/* Desktop Navigation Links - Centered (Hidden on Register and Login pages) */}
+          {location.pathname !== '/register' && location.pathname !== '/login' && (
+            <div className="hidden lg:flex items-center space-x-8 absolute left-1/2 transform -translate-x-1/2">
+              <Link 
+                to="/" 
+                className={`px-3 py-2 font-medium transition-all duration-200 text-base ${
+                  location.pathname === '/' 
+                    ? 'text-[#3b82f6] font-semibold' 
+                    : 'text-gray-800 hover:text-[#3b82f6]'
+                }`}
+              >
+                Home
+              </Link>
+              <Link 
+                to="/about" 
+                className={`px-3 py-2 font-medium transition-all duration-200 text-base ${
+                  location.pathname === '/about' 
+                    ? 'text-[#3b82f6] font-semibold' 
+                    : 'text-gray-800 hover:text-[#3b82f6]'
+                }`}
+              >
+                About Us
+              </Link>
+              
+              {/* Product Dropdown */}
+              <div 
+                className="relative group"
+                onMouseEnter={() => setIsProductOpen(true)}
+                onMouseLeave={() => setIsProductOpen(false)}
+              >
+                <button className="px-3 py-2 font-medium text-gray-800 hover:text-[#3b82f6] transition-all duration-200 text-base flex items-center">
+                  Product
+                  <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {isProductOpen && (
+                  <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 py-2">
+                    <Link to="/savings" className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#3b82f6] transition-colors">
+                      Savings Account
+                    </Link>
+                    <Link to="/loans" className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#3b82f6] transition-colors">
+                      Loans
+                    </Link>
+                    <Link to="/cards" className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#3b82f6] transition-colors">
+                      Credit Cards
+                    </Link>
+                  </div>
+                )}
               </div>
-            </div>
-          </div>
 
-          {/* Navigation Buttons */}
-          <div className="flex items-center space-x-3 md:space-x-4">
+              {/* Pages Dropdown */}
+              <div 
+                className="relative group"
+                onMouseEnter={() => setIsPagesOpen(true)}
+                onMouseLeave={() => setIsPagesOpen(false)}
+              >
+                <button className="px-3 py-2 font-medium text-gray-800 hover:text-[#3b82f6] transition-all duration-200 text-base flex items-center">
+                  Pages
+                  <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {isPagesOpen && (
+                  <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 py-2">
+                    <Link to="/terms" className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#3b82f6] transition-colors">
+                      Terms & Conditions
+                    </Link>
+                    <Link to="/privacy" className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#3b82f6] transition-colors">
+                      Privacy Policy
+                    </Link>
+                  </div>
+                )}
+              </div>
+
+              <Link 
+                to="/contact" 
+                className={`px-3 py-2 font-medium transition-all duration-200 text-base ${
+                  location.pathname === '/contact' 
+                    ? 'text-[#3b82f6] font-semibold' 
+                    : 'text-gray-800 hover:text-[#3b82f6]'
+                }`}
+              >
+                Contact Us
+              </Link>
+            </div>
+          )}
+
+          {/* CTA Button / Login Section */}
+          <div className="flex items-center space-x-4">
             {/* Mobile Menu Button */}
             <button 
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -103,12 +141,39 @@ function Navbar() {
               </svg>
             </button>
 
-            <button className="hidden sm:block px-5 md:px-6 py-2 md:py-2.5 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-all duration-200 hover:text-blue-600 text-sm md:text-base hover:scale-105">
-              Login
-            </button>
-            <button className="px-4 md:px-6 py-2 md:py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 hover:scale-105 active:translate-y-0 text-sm md:text-base">
-              Sign Up
-            </button>
+            {/* Show different content based on route */}
+            {location.pathname === '/register' ? (
+              <div className="flex items-center space-x-4">
+                <span className="hidden md:block text-gray-700 font-medium text-sm md:text-base">
+                  Already have account
+                </span>
+                <Link
+                  to="/login"
+                  className="px-6 py-2.5 bg-[#3b82f6] text-white font-bold rounded-lg hover:bg-[#2563eb] transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 hover:scale-105 active:translate-y-0 text-sm md:text-base uppercase"
+                >
+                  Login Now
+                </Link>
+              </div>
+            ) : location.pathname === '/login' ? (
+              <div className="flex items-center space-x-4">
+                <span className="hidden md:block text-gray-700 font-medium text-sm md:text-base">
+                  Don't have an account
+                </span>
+                <Link
+                  to="/register"
+                  className="px-6 py-2.5 bg-[#1e3a8a] text-white font-bold rounded-lg hover:bg-[#1e40af] transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 hover:scale-105 active:translate-y-0 text-sm md:text-base"
+                >
+                  Register
+                </Link>
+              </div>
+            ) : (
+              <Link
+                to="/register"
+                className="px-6 py-2.5 bg-[#3b82f6] text-white font-semibold rounded-lg hover:bg-[#2563eb] transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 hover:scale-105 active:translate-y-0 text-sm md:text-base"
+              >
+                Open Account
+              </Link>
+            )}
           </div>
         </div>
 
@@ -121,8 +186,8 @@ function Navbar() {
                 onClick={closeMobileMenu}
                 className={`px-4 py-2 font-medium rounded-lg transition-all duration-200 ${
                   location.pathname === '/' 
-                    ? 'text-blue-600 bg-blue-50' 
-                    : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
+                    ? 'text-[#3b82f6] bg-blue-50 font-semibold' 
+                    : 'text-gray-800 hover:bg-gray-50 hover:text-[#3b82f6]'
                 }`}
               >
                 Home
@@ -132,48 +197,58 @@ function Navbar() {
                 onClick={closeMobileMenu}
                 className={`px-4 py-2 font-medium rounded-lg transition-all duration-200 ${
                   location.pathname === '/about' 
-                    ? 'text-blue-600 bg-blue-50' 
-                    : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
+                    ? 'text-[#3b82f6] bg-blue-50 font-semibold' 
+                    : 'text-gray-800 hover:bg-gray-50 hover:text-[#3b82f6]'
                 }`}
               >
-                About
+                About Us
               </Link>
+              <div className="px-4 py-2">
+                <button className="w-full text-left font-medium text-gray-800 hover:text-[#3b82f6] transition-colors">
+                  Product
+                </button>
+                <div className="ml-4 mt-2 space-y-1">
+                  <Link to="/savings" onClick={closeMobileMenu} className="block py-1 text-sm text-gray-600 hover:text-[#3b82f6]">
+                    Savings Account
+                  </Link>
+                  <Link to="/loans" onClick={closeMobileMenu} className="block py-1 text-sm text-gray-600 hover:text-[#3b82f6]">
+                    Loans
+                  </Link>
+                  <Link to="/cards" onClick={closeMobileMenu} className="block py-1 text-sm text-gray-600 hover:text-[#3b82f6]">
+                    Credit Cards
+                  </Link>
+                </div>
+              </div>
+              <div className="px-4 py-2">
+                <button className="w-full text-left font-medium text-gray-800 hover:text-[#3b82f6] transition-colors">
+                  Pages
+                </button>
+                <div className="ml-4 mt-2 space-y-1">
+                  <Link to="/terms" onClick={closeMobileMenu} className="block py-1 text-sm text-gray-600 hover:text-[#3b82f6]">
+                    Terms & Conditions
+                  </Link>
+                  <Link to="/privacy" onClick={closeMobileMenu} className="block py-1 text-sm text-gray-600 hover:text-[#3b82f6]">
+                    Privacy Policy
+                  </Link>
+                </div>
+              </div>
               <Link 
                 to="/contact" 
                 onClick={closeMobileMenu}
                 className={`px-4 py-2 font-medium rounded-lg transition-all duration-200 ${
                   location.pathname === '/contact' 
-                    ? 'text-blue-600 bg-blue-50' 
-                    : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
+                    ? 'text-[#3b82f6] bg-blue-50 font-semibold' 
+                    : 'text-gray-800 hover:bg-gray-50 hover:text-[#3b82f6]'
                 }`}
               >
-                Contact
+                Contact Us
               </Link>
-              <Link 
-                to="/terms" 
-                onClick={closeMobileMenu}
-                className={`px-4 py-2 font-medium rounded-lg transition-all duration-200 ${
-                  location.pathname === '/terms' 
-                    ? 'text-blue-600 bg-blue-50' 
-                    : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
-                }`}
+              <Link
+                to="/register"
+                className="block px-4 py-2 mt-2 bg-[#3b82f6] text-white font-semibold rounded-lg hover:bg-[#2563eb] transition-colors text-center"
               >
-                Terms & Conditions
+                Open Account
               </Link>
-              <Link 
-                to="/privacy" 
-                onClick={closeMobileMenu}
-                className={`px-4 py-2 font-medium rounded-lg transition-all duration-200 ${
-                  location.pathname === '/privacy' 
-                    ? 'text-blue-600 bg-blue-50' 
-                    : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
-                }`}
-              >
-                Privacy Policy
-              </Link>
-              <button className="px-4 py-2 text-left text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-all duration-200 hover:text-blue-600">
-                Login
-              </button>
             </div>
           </div>
         )}
